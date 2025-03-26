@@ -1,0 +1,6 @@
+@PRM392.API_HostAddress = http://localhost:5164
+
+GET {{PRM392.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
