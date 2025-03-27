@@ -19,9 +19,7 @@
 	  <ProjectReference Include="..\PRM392.Utils\PRM392.Utils.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="DTOs\Chat\" />
 	  <Folder Include="DTOs\Payment\" />
-	  <Folder Include="DTOs\Notification\" />
 	  <Folder Include="DTOs\Order\" />
 	</ItemGroup>
 

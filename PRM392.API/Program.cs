@@ -244,9 +244,8 @@ namespace PRM392.API
             builder.Services.AddScoped<ICartItemService, CartItemService>();
             //builder.Services.AddScoped<IOrderService, OrderService>();
             //builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
-            //builder.Services.AddScoped<INotificationService, NotificationService>();
-            //builder.Services.AddScoped<IChatMessageService, ChatMessageService>();
-            //builder.Services.AddScoped<IStoreLocationService, StoreLocationService>();
+            builder.Services.AddScoped<INotificationService, NotificationService>();
+            builder.Services.AddScoped<IChatMessageService, ChatMessageService>();
             builder.Services.AddScoped<IStoreLocationService, StoreLocationService>();
 
             // HttpClient

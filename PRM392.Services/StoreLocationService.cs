@@ -101,7 +101,7 @@ namespace PRM392.Services
                 throw;
             }
             catch (Exception ex)
-    {
+            {
                 throw new ApiException(ex.Message, System.Net.HttpStatusCode.InternalServerError);
             }
         }
