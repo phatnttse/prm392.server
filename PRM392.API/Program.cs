@@ -258,7 +258,6 @@ namespace PRM392.API
             builder.Services.AddScoped<ProductImageRepository>();
 
             //Services
-            builder.Services.AddScoped<IStorageService, StorageService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IUserRoleService, UserRoleService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
