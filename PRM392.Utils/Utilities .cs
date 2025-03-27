@@ -61,7 +61,7 @@ namespace PRM392.Utils
             return $"{text}_{ticks}";
         }
 
-        private static string RemoveDiacritics(string text)
+        public static string RemoveDiacritics(string text)
         {
             var normalizedString = text.Normalize(NormalizationForm.FormD);
             var stringBuilder = new StringBuilder();
