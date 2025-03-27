@@ -9,6 +9,9 @@ using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace PRM392.API.Controllers
 {
+    /// <summary>
+    /// Controller for handling authentication related actions.
+    /// </summary>
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/auth")]
@@ -16,13 +19,14 @@ namespace PRM392.API.Controllers
     {
         private readonly IAuthService _authService;
 
-        public AuthController(IAuthService authService)
-        {
-            _authService = authService;
-        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AuthController"/> class.
+        /// </summary>
+        /// <param name="authService">The authentication service.</param>
+        public AuthController(IAuthService authService) => _authService = authService;
 
         /// <summary>
-        /// Đăng nhập
+        /// Login with username and password or refresh tokens
         /// </summary>
         /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
@@ -84,7 +88,7 @@ namespace PRM392.API.Controllers
         }
 
         /// <summary>
-        /// Đăng ký
+        /// Sign up a new account
         /// </summary>
         /// <param name="body"></param>
         /// <returns></returns>

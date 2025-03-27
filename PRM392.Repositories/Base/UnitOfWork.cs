@@ -15,15 +15,39 @@ namespace PRM392.Repositories.Base
         private readonly ApplicationDbContext _context;
         public UserAccountRepository UserAccountRepository { get; }
         public UserRoleRepository UserRoleRepository { get; }
+        public ProductRepository ProductRepository { get; }
+        public CategoryRepository CategoryRepository { get; }
+        public CartItemRepository CartItemRepository { get; }
+        public OrderRepository OrderRepository { get; }
+        public OrderDetailRepository OrderDetailRepository { get; }
+        public NotificationRepository NotificationRepository { get; }
+        public ChatMessageRepository ChatMessageRepository { get; }
+        public StoreLocationRepository StoreLocationRepository { get; }
 
         public UnitOfWork(ApplicationDbContext context,
             UserAccountRepository userAccountRepository,
-            UserRoleRepository userRoleRepository
+            UserRoleRepository userRoleRepository,
+            ProductRepository productRepository,
+            CategoryRepository categoryRepository,
+            CartItemRepository cartItemRepository,
+            OrderRepository orderRepository,
+            OrderDetailRepository orderDetailRepository,
+            NotificationRepository notificationRepository,
+            ChatMessageRepository chatMessageRepository,
+            StoreLocationRepository storeLocationRepository
         )
         {
             _context = context;
             UserAccountRepository = userAccountRepository;
             UserRoleRepository = userRoleRepository;
+            ProductRepository = productRepository;
+            CategoryRepository = categoryRepository;
+            CartItemRepository = cartItemRepository;
+            OrderRepository = orderRepository;
+            OrderDetailRepository = orderDetailRepository;
+            NotificationRepository = notificationRepository;
+            ChatMessageRepository = chatMessageRepository;
+            StoreLocationRepository = storeLocationRepository;
         }
 
         public async Task<int> SaveChangesAsync()
