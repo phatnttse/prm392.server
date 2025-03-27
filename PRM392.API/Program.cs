@@ -219,10 +219,12 @@ namespace PRM392.API
             //Repositories
             builder.Services.AddScoped<UserAccountRepository>();
             builder.Services.AddScoped<UserRoleRepository>();
+            builder.Services.AddScoped<IStoreLocation,StoreLocationRepository>();
 
             //Services
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IUserRoleService, UserRoleService>();
+            builder.Services.AddScoped<IStoreLocationService, StoreLocationService>();
 
             // HttpClient
             builder.Services.AddHttpClient();
