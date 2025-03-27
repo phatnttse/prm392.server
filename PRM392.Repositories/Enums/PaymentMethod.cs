@@ -8,7 +8,7 @@ namespace PRM392.Repositories.Enums
 {
     public enum PaymentMethod
     {
-        Cash,
-        BankTransfer
+        BankTransfer,
+        Cash
     }
 }

@@ -37,7 +37,7 @@ namespace PRM392.API.Controllers
         }
 
         /// <summary>
-        /// Creates a new order.
+        /// Creates a new order. PaymentMethod (1: Cash, 2: BankTransfer).
         /// </summary>
         /// <param name="createOrderDTO">The order details.</param>
         /// <returns>The result of the creation operation.</returns>
