@@ -272,7 +272,7 @@ namespace PRM392.API
             // HttpClient
             builder.Services.AddHttpClient();
 
-            //builder.WebHost.UseUrls("http://*:7267");
+            builder.WebHost.UseUrls("http://*:7267");
 
             var app = builder.Build();
 
