@@ -32,10 +32,10 @@ namespace PRM392.Repositories
         }
 
         public async Task<StoreLocation> RemoveStoreLocation(decimal latitude, decimal longitude)
-        {
+    {
             var storeLocation = await _context.StoreLocations.FirstOrDefaultAsync(sl => sl.Latitude == latitude && sl.Longitude == longitude);
             if (storeLocation != null)
-            {
+        {
                 _context.StoreLocations.Remove(storeLocation);
                 await _context.SaveChangesAsync();
             }

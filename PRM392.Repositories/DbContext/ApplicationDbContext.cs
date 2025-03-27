@@ -67,6 +67,10 @@ namespace PRM392.Repositories.DbContext
             modelBuilder.Entity<Order>()
                 .Property(o => o.PaymentStatus)
                 .HasConversion(new EnumToStringConverter<PaymentStatus>());
+
+            modelBuilder.Entity<Order>()
+                .Property(o => o.PaymentMethod)
+                .HasConversion(new EnumToStringConverter<PaymentMethod>());
         }
 
 

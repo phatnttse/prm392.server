@@ -1,4 +1,4 @@
-
+﻿
 using DotNetEnv;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Versioning;
@@ -204,6 +204,10 @@ namespace PRM392.API
                         }
                     }
                 });
+                // Đọc file XML Comment
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
 
             // Mapper
@@ -219,11 +223,27 @@ namespace PRM392.API
             //Repositories
             builder.Services.AddScoped<UserAccountRepository>();
             builder.Services.AddScoped<UserRoleRepository>();
+            builder.Services.AddScoped<ProductRepository>();
+            builder.Services.AddScoped<CategoryRepository>();
+            builder.Services.AddScoped<CartItemRepository>();
+            builder.Services.AddScoped<OrderRepository>();
+            builder.Services.AddScoped<OrderDetailRepository>();
+            builder.Services.AddScoped<NotificationRepository>();
+            builder.Services.AddScoped<ChatMessageRepository>();
+            builder.Services.AddScoped<StoreLocationRepository>();
             builder.Services.AddScoped<IStoreLocation,StoreLocationRepository>();
 
             //Services
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IUserRoleService, UserRoleService>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
+            //builder.Services.AddScoped<IProductService, ProductService>();
+            //builder.Services.AddScoped<ICartItemService, CartItemService>();
+            //builder.Services.AddScoped<IOrderService, OrderService>();
+            //builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
+            //builder.Services.AddScoped<INotificationService, NotificationService>();
+            //builder.Services.AddScoped<IChatMessageService, ChatMessageService>();
+            //builder.Services.AddScoped<IStoreLocationService, StoreLocationService>();
             builder.Services.AddScoped<IStoreLocationService, StoreLocationService>();
 
             // HttpClient
