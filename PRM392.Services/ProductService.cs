@@ -31,16 +31,9 @@ namespace PRM392.Services
         public async Task<ApplicationResponse> CreateProduct(CreateUpdateProductDTO body)
         {
             try
-            {
-                string currentUserId = Utilities.GetCurrentUserId() ?? throw new ApiException("Please ensure you are logged in.", System.Net.HttpStatusCode.Unauthorized);
-                
+            {                
                 var product = _mapper.Map<Product>(body);
-
-                if (body.Image != null)
-                {
-                    product.ImageFileName = await _storageService.UploadFileAsync(body.Image);
-                }
-
+              
                 product.ActiveFlag = (byte)ActiveFlag.Active;
 
                 await _unitOfWork.ProductRepository.AddAsync(product);
@@ -158,17 +151,7 @@ namespace PRM392.Services
                 Product product = await _unitOfWork.ProductRepository.GetByIdAsync(id) ?? throw new ApiException("Product not found", System.Net.HttpStatusCode.NotFound);
 
                 _mapper.Map(body, product);
-
-                if (body.Image != null)
-                {
-                    if ((string.IsNullOrEmpty(product.ImageFileName)))
-                    {
-                        _storageService.DeleteFile(product.ImageFileName!);
-                    }
-
-                    product.ImageFileName = await _storageService.UploadFileAsync(body.Image);
-                }
-
+              
                 _unitOfWork.ProductRepository.Update(product);
 
                 await _unitOfWork.SaveChangesAsync();
