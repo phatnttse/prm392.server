@@ -262,12 +262,12 @@ namespace PRM392.API
             app.UseExceptionHandler(opt => { });
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
-                    c.DocumentTitle = "Swagger UI - PettieHome";
+                    c.DocumentTitle = "Swagger UI - PRM392";
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{OidcServerConfig.ServerName} V1");
                     c.OAuthClientId(OidcServerConfig.SwaggerClientID);
                 });
