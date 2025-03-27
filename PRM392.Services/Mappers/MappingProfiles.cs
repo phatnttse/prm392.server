@@ -25,6 +25,7 @@ namespace PRM392.Services.Mappers
             CreateMap<Product, ProductDTO>().ReverseMap();
             CreateMap<CreateUpdateProductDTO, Product>().ReverseMap()
                  .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<ProductImage, ProductImageDTO>().ReverseMap();
 
             //CartItem
             CreateMap<CartItem, CartItemDTO>().ReverseMap();

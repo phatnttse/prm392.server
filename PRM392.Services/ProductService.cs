@@ -5,7 +5,6 @@ using PRM392.Repositories.Interfaces;
 using PRM392.Repositories.Models;
 using PRM392.Services.DTOs.Product;
 using PRM392.Services.Interfaces;
-using PRM392.Utils;
 
 
 namespace PRM392.Services
@@ -38,6 +37,16 @@ namespace PRM392.Services
 
                 await _unitOfWork.ProductRepository.AddAsync(product);
 
+                List<ProductImage> images = body.ImageUrls!.Select(url => new ProductImage
+                {
+                    ProductId = product.Id,
+                    ImageUrl = url
+                }).ToList();
+
+                List<ProductImage> newImages = await _unitOfWork.ProductImageRepository.AddRangeAsync(images);
+
+                product.Images = newImages;
+
                 await _unitOfWork.SaveChangesAsync();
 
                 return new ApplicationResponse
@@ -64,12 +73,9 @@ namespace PRM392.Services
             {
                 Product product = await _unitOfWork.ProductRepository.GetByIdAsync(id) ?? throw new ApiException("Product not found", System.Net.HttpStatusCode.NotFound);
 
-               _unitOfWork.ProductRepository.Delete(product);
+                product.ActiveFlag = (byte)ActiveFlag.Deleted;
 
-                if (!String.IsNullOrEmpty(product.ImageFileName))
-                {
-                    _storageService.DeleteFile(product.ImageFileName);
-                }
+                _unitOfWork.ProductRepository.Update(product);
 
                 await _unitOfWork.SaveChangesAsync();
 
@@ -96,7 +102,7 @@ namespace PRM392.Services
         {
             try
             {
-                Product? product = await _unitOfWork.ProductRepository.GetByIdAsync(id) ?? throw new ApiException("Product not found", System.Net.HttpStatusCode.NotFound);
+                Product? product = await _unitOfWork.ProductRepository.GetProductByIdAsync(id) ?? throw new ApiException("Product not found", System.Net.HttpStatusCode.NotFound);
 
                 return new ApplicationResponse
                 {
@@ -121,7 +127,7 @@ namespace PRM392.Services
         {
             try
             {
-                List<Product> products = await _unitOfWork.ProductRepository.GetAllAsync();
+                List<Product> products = await _unitOfWork.ProductRepository.GetProductsAsync();
 
                 var productDtos = _mapper.Map<List<ProductDTO>>(products);
 

@@ -233,6 +233,7 @@ namespace PRM392.API
             builder.Services.AddScoped<ChatMessageRepository>();
             builder.Services.AddScoped<StoreLocationRepository>();
             builder.Services.AddScoped<IStoreLocation,StoreLocationRepository>();
+            builder.Services.AddScoped<ProductImageRepository>();
 
             //Services
             builder.Services.AddScoped<IStorageService, StorageService>();

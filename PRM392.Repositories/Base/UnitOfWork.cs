@@ -23,6 +23,7 @@ namespace PRM392.Repositories.Base
         public NotificationRepository NotificationRepository { get; }
         public ChatMessageRepository ChatMessageRepository { get; }
         public StoreLocationRepository StoreLocationRepository { get; }
+        public ProductImageRepository ProductImageRepository { get; }
 
         public UnitOfWork(ApplicationDbContext context,
             UserAccountRepository userAccountRepository,
@@ -34,7 +35,8 @@ namespace PRM392.Repositories.Base
             OrderDetailRepository orderDetailRepository,
             NotificationRepository notificationRepository,
             ChatMessageRepository chatMessageRepository,
-            StoreLocationRepository storeLocationRepository
+            StoreLocationRepository storeLocationRepository,
+            ProductImageRepository productImageRepository
         )
         {
             _context = context;
@@ -48,6 +50,7 @@ namespace PRM392.Repositories.Base
             NotificationRepository = notificationRepository;
             ChatMessageRepository = chatMessageRepository;
             StoreLocationRepository = storeLocationRepository;
+            ProductImageRepository = productImageRepository;
         }
 
         public async Task<int> SaveChangesAsync()
