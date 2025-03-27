@@ -244,9 +244,8 @@ namespace PRM392.API
             builder.Services.AddScoped<ICartItemService, CartItemService>();
             //builder.Services.AddScoped<IOrderService, OrderService>();
             //builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
-            //builder.Services.AddScoped<INotificationService, NotificationService>();
-            //builder.Services.AddScoped<IChatMessageService, ChatMessageService>();
-            //builder.Services.AddScoped<IStoreLocationService, StoreLocationService>();
+            builder.Services.AddScoped<INotificationService, NotificationService>();
+            builder.Services.AddScoped<IChatMessageService, ChatMessageService>();
             builder.Services.AddScoped<IStoreLocationService, StoreLocationService>();
 
             // HttpClient
@@ -262,12 +261,12 @@ namespace PRM392.API
             app.UseExceptionHandler(opt => { });
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
-                    c.DocumentTitle = "Swagger UI - PettieHome";
+                    c.DocumentTitle = "Swagger UI - PRM392";
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{OidcServerConfig.ServerName} V1");
                     c.OAuthClientId(OidcServerConfig.SwaggerClientID);
                 });

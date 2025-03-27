@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PRM392.Services.DTOs.Chat;
+using PRM392.Services.DTOs.Notification;
 
 namespace PRM392.Services.Mappers
 {
@@ -32,6 +34,14 @@ namespace PRM392.Services.Mappers
 
             CreateMap<StoreLocationDTO, StoreLocation>();
             CreateMap<StoreLocation, StoreLocationDTO>(); // Nếu cần ánh xạ ngược
+
+            //Chat
+            CreateMap<CreateChatMessageDTO, ChatMessage>();
+            CreateMap<ChatMessage, CreateChatMessageDTO>(); // Nếu cần ánh xạ ngược
+
+            //Notification
+            CreateMap<Notification, NotificationDTO>().ReverseMap();
+            CreateMap<NotificationDTO, Notification>().ReverseMap();
         }
     }
 }
