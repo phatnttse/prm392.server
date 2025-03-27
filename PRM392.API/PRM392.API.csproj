@@ -26,8 +26,4 @@
 	  <ProjectReference Include="..\PRM392.Services\PRM392.Services.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="wwwroot\" />
-	</ItemGroup>
-
 </Project>

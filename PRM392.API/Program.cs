@@ -258,7 +258,6 @@ namespace PRM392.API
             builder.Services.AddScoped<ProductImageRepository>();
 
             //Services
-            builder.Services.AddScoped<IStorageService, StorageService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IUserRoleService, UserRoleService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
@@ -273,7 +272,7 @@ namespace PRM392.API
             // HttpClient
             builder.Services.AddHttpClient();
 
-            builder.WebHost.UseUrls("http://*:7267");
+            //builder.WebHost.UseUrls("http://*:7267");
 
             var app = builder.Build();
 

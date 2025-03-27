@@ -14,15 +14,13 @@ namespace PRM392.Services
         #region Properties
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly IStorageService _storageService;
         #endregion
 
         #region Ctors
-        public ProductService(IUnitOfWork unitOfWork, IMapper mapper, IStorageService storageService)
+        public ProductService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _storageService = storageService;
         }
         #endregion
 
