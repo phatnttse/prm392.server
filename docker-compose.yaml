@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  bonheur-server-container:
+  prm392-server-container:
     container_name: prm392-server-container
     build:
       context: .
@@ -19,7 +19,7 @@ services:
       start_period: 30s
       timeout: 10s
 networks:
-  bonheur-network:
+  prm392-network:
     name: prm392-network
     driver: bridge
 
