@@ -10,6 +10,7 @@
 		<PackageReference Include="AutoMapper" Version="14.0.0" />
 		<PackageReference Include="MailKit" Version="4.11.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
+		<PackageReference Include="payOS" Version="1.0.9" />
 	</ItemGroup>
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
@@ -17,10 +18,6 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\PRM392.Repositories\PRM392.Repositories.csproj" />
 	  <ProjectReference Include="..\PRM392.Utils\PRM392.Utils.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="DTOs\Payment\" />
-	  <Folder Include="DTOs\Order\" />
 	</ItemGroup>
 
 </Project>

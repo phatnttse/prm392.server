@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Bonheur.Services.DTOs.Account
+namespace PRM392.Services.DTOs.Account
 {
     public class CreateUserRoleDTO
     {

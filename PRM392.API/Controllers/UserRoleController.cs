@@ -1,7 +1,7 @@
-﻿using Bonheur.Services.DTOs.Account;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PRM392.Repositories.Models;
+using PRM392.Services.DTOs.Account;
 using PRM392.Services.Interfaces;
 
 namespace PRM392.API.Controllers
