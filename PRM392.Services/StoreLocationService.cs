@@ -91,7 +91,7 @@ namespace PRM392.Services
                 return new ApplicationResponse
                 {
                     Success = true,
-                    Message = "Get all store locations successfully!",
+                    Message = "Get all store locations successfully hihi!",
                     Data = listStoreLocationDTO,
                     StatusCode = System.Net.HttpStatusCode.OK
                 };
