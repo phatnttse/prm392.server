@@ -232,6 +232,7 @@ namespace PRM392.API
             builder.Services.AddScoped<NotificationRepository>();
             builder.Services.AddScoped<ChatMessageRepository>();
             builder.Services.AddScoped<StoreLocationRepository>();
+            builder.Services.AddScoped<IStoreLocation,StoreLocationRepository>();
 
             //Services
             builder.Services.AddScoped<IStorageService, StorageService>();
@@ -245,6 +246,7 @@ namespace PRM392.API
             //builder.Services.AddScoped<INotificationService, NotificationService>();
             //builder.Services.AddScoped<IChatMessageService, ChatMessageService>();
             //builder.Services.AddScoped<IStoreLocationService, StoreLocationService>();
+            builder.Services.AddScoped<IStoreLocationService, StoreLocationService>();
 
             // HttpClient
             builder.Services.AddHttpClient();
