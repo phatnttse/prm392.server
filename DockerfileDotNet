@@ -24,7 +24,7 @@ RUN dotnet publish "PRM392.API.csproj" -c Release -o /app/publish
 # Use the runtime image for running the application
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 2703
+EXPOSE 7267
 
 # Cấu hình để chạy môi trường Development
 ENV ASPNETCORE_ENVIRONMENT=Development
