@@ -22,11 +22,19 @@ using PRM392.Repositories.DbContext;
 using PRM392.Repositories.Entities;
 using PRM392.Repositories;
 using PRM392.Utils;
+using Net.payOS;
 
 namespace PRM392.API
 {
+    /// <summary>
+    /// The main entry point for the application.
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        /// The main method which starts the application.
+        /// </summary>
+        /// <param name="args">The command-line arguments.</param>
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -211,6 +219,20 @@ namespace PRM392.API
                 c.IncludeXmlComments(xmlPath);
             });
 
+            //PayOs
+            var payOsClientId = Environment.GetEnvironmentVariable("PAYOS_CLIENT_ID") ??
+                 throw new InvalidOperationException("Environement string 'PAYOS_CLIENT_ID' not found.");
+
+            var payOsApiKey = Environment.GetEnvironmentVariable("PAYOS_API_KEY") ??
+                throw new InvalidOperationException("Environement string 'PAYOS_API_KEY' not found.");
+
+            var payOsCheckSumKey = Environment.GetEnvironmentVariable("PAYOS_CHECKSUM_KEY") ??
+                throw new InvalidOperationException("Environement string 'PAYOS_CHECKSUM_KEY' not found.");
+
+            PayOS payOS = new PayOS(payOsClientId, payOsApiKey, payOsCheckSumKey);
+
+            builder.Services.AddSingleton(payOS);
+
             // Mapper
             builder.Services.AddAutoMapper(typeof(MappingProfiles));
 
@@ -232,7 +254,7 @@ namespace PRM392.API
             builder.Services.AddScoped<NotificationRepository>();
             builder.Services.AddScoped<ChatMessageRepository>();
             builder.Services.AddScoped<StoreLocationRepository>();
-            builder.Services.AddScoped<IStoreLocation,StoreLocationRepository>();
+            builder.Services.AddScoped<IStoreLocation, StoreLocationRepository>();
             builder.Services.AddScoped<ProductImageRepository>();
 
             //Services
@@ -242,8 +264,8 @@ namespace PRM392.API
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<ICartItemService, CartItemService>();
-            //builder.Services.AddScoped<IOrderService, OrderService>();
-            //builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IPaymentService, PaymentService>();
             builder.Services.AddScoped<INotificationService, NotificationService>();
             builder.Services.AddScoped<IChatMessageService, ChatMessageService>();
             builder.Services.AddScoped<IStoreLocationService, StoreLocationService>();

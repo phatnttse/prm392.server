@@ -10,7 +10,7 @@ namespace PRM392.Repositories.Entities
 
         public virtual ApplicationUser? User { get; set; }
 
-        public int OrderNumber { get; set; }
+        public int OrderCode { get; set; }
 
         public string? BuyerName { get; set; }
 

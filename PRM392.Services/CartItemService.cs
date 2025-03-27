@@ -29,7 +29,7 @@ namespace PRM392.Services
 
                 ApplicationUser? user = await _unitOfWork.UserAccountRepository.GetByIdAsync(currentUserId);
 
-                Product? product = await _unitOfWork.ProductRepository.GetByIdAsync(body.ProductId!);
+                Product? product = await _unitOfWork.ProductRepository.GetProductByIdAsync(body.ProductId!);
 
                 if (product == null) throw new ApiException("Product not found", System.Net.HttpStatusCode.NotFound);
 
@@ -51,7 +51,8 @@ namespace PRM392.Services
                     {
                         UserId = currentUserId,
                         ProductId = body.ProductId!,
-                        Quantity = body.Quantity
+                        Quantity = body.Quantity,
+                        Product = product
                     };
 
                     await _unitOfWork.CartItemRepository.AddAsync(cartItem);

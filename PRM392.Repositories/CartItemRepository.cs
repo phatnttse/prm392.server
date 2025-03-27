@@ -20,6 +20,7 @@ namespace PRM392.Repositories
         {
             return await _context.CartItems
                 .Include(ci => ci.Product)
+                .ThenInclude(p => p.Images)
                 .Where(ci => ci.UserId == userId && ci.ProductId == productId)
                 .FirstOrDefaultAsync();
         }
@@ -28,6 +29,7 @@ namespace PRM392.Repositories
         {
             return await _context.CartItems
                 .Include(ci => ci.Product)
+                .ThenInclude(p => p.Images)
                 .Where(ci => ci.Id == id)
                 .FirstOrDefaultAsync();
         }

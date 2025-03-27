@@ -14,5 +14,11 @@ namespace PRM392.Repositories
         public OrderDetailRepository(ApplicationDbContext context) : base(context)
         {
         }
+
+        public async Task<List<OrderDetail>> AddRangeAsync(List<OrderDetail> orderDetails)
+        {
+            await _context.OrderDetails.AddRangeAsync(orderDetails);
+            return orderDetails;
+        }
     }
 }
