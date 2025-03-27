@@ -13,7 +13,7 @@ namespace PRM392.Services.DTOs.Product
         public string? Description { get; set; }
         public decimal Price { get; set; }
         public int StockQuantity { get; set; }
-        public IFormFile? Image { get; set; }
+        public List<string>? ImageUrls { get; set; }
         public string? CategoryId { get; set; }
     }
 }

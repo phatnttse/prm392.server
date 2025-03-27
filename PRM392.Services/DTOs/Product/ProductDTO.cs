@@ -15,8 +15,7 @@ namespace PRM392.Services.DTOs.Product
         public string? Description { get; set; }
         public decimal Price { get; set; }
         public int StockQuantity { get; set; }
-        public string? ImageUrl { get; set; }
-        public string? ImageFileName { get; set; }
+        public List<ProductImageDTO>? Images { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset UpdatedAt { get; set; }
         public byte ActiveFlag { get; set; }

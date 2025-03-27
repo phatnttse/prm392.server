@@ -19,6 +19,7 @@ namespace PRM392.Repositories.Interfaces
         NotificationRepository NotificationRepository { get; }
         ChatMessageRepository ChatMessageRepository { get; }
         StoreLocationRepository StoreLocationRepository { get; }
+        ProductImageRepository ProductImageRepository { get; }
     }
 
 }

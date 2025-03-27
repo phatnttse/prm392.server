@@ -11,8 +11,8 @@ namespace PRM392.Services.Interfaces
     public interface ICartItemService
     {
         Task<ApplicationResponse> GetCartItemsByUser();
-        Task<ApplicationResponse> AddCartItem(CreateUpdateCartItemDTO request);
-        Task<ApplicationResponse> UpdateCartItem(string id, CreateUpdateCartItemDTO request);
+        Task<ApplicationResponse> AddCartItem(CreateUpdateCartItemDTO body);
+        Task<ApplicationResponse> UpdateCartItem(string id, CreateUpdateCartItemDTO body);
         Task<ApplicationResponse> DeleteCartItem(string id);
         Task<ApplicationResponse> ClearCartByUser();
     }

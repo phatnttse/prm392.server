@@ -1,0 +1,55 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose --version
+
+      - name: Login to Docker Hub
+        run: |
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Create .env file
+        run: echo "${{ secrets.ENV_SECRET }}" > PRM392.API/.env
+
+      - name: Build and Push Docker image
+        run: |
+          docker-compose -f docker-compose.yaml build
+          docker tag prm392server_prm392-server-container ${{ secrets.DOCKER_USERNAME }}/prm392-app:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/prm392-app:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment: production
+
+    steps:
+      - name: Install sshpass
+        run: sudo apt-get install sshpass
+
+      - name: Deploy to VPS using Password Authentication
+        run: |
+          sshpass -p "${{ secrets.VPS_PASSWORD }}" ssh -o StrictHostKeyChecking=no root@${{ secrets.VPS_HOST }} << 'EOF'
+            docker pull ${{ secrets.DOCKER_USERNAME }}/prm392-app:latest
+            docker stop prm392-app || true
+            docker rm prm392-app || true
+            docker run -d --name prm392-app \
+              -p 2703:2703 \
+              -e DB_CONNECTION_STRING="${{ secrets.DB_CONNECTION_STRING }}" \            
+              ${{ secrets.DOCKER_USERNAME }}/prm392-app:latest
+          EOF
