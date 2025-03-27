@@ -49,7 +49,7 @@ jobs:
             docker stop prm392-app || true
             docker rm prm392-app || true
             docker run -d --name prm392-app \
-              -p 2703:2703 \
-              -e DB_CONNECTION_STRING="${{ secrets.DB_CONNECTION_STRING }}" \            
+              -p 7267:7267 \
+              -e DB_CONNECTION_STRING="${{ secrets.DB_CONNECTION_STRING }}" \
               ${{ secrets.DOCKER_USERNAME }}/prm392-app:latest
           EOF
