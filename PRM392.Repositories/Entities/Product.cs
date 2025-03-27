@@ -17,5 +17,6 @@ namespace PRM392.Repositories.Entities
         public string? ImageFileName { get; set; }
         public string? CategoryId { get; set; }
         public virtual Category? Category { get; set; }
+        public virtual ICollection<ProductImage>? Images { get; set; }
     }
 }

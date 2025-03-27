@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  bonheur-server-container:
+    container_name: bonheur-server-container
+    build:
+      context: .
+      dockerfile: DockerfileDotNet
+    ports:
+      - "8080:8080"
+    networks:
+      - bonheur-network
+    env_file:
+      - Bonheur.API/.env
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+networks:
+  bonheur-network:
+    name: bonheur-network
+    driver: bridge
+
+#docker-compose -f ./docker-compose.yaml up -d bonheur-server-container

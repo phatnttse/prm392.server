@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PRM392.Services
 {
-    internal class OrderService
+    public class OrderService
     {
     }
 }

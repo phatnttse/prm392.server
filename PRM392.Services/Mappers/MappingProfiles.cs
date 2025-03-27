@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using PRM392.Repositories.Entities;
+using PRM392.Services.DTOs.Cart;
 using PRM392.Services.DTOs.Category;
 using PRM392.Services.DTOs.Product;
+using PRM392.Services.DTOs.StoreLocation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +18,20 @@ namespace PRM392.Services.Mappers
         {
             //Category
             CreateMap<Category, CategoryDTO>().ReverseMap();
-            CreateMap<CreateUpdateCategoryDTO, Category>().ReverseMap();
+            CreateMap<CreateUpdateCategoryDTO, Category>().ReverseMap()
+                 .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
 
             //Product
             CreateMap<Product, ProductDTO>().ReverseMap();
             CreateMap<CreateUpdateProductDTO, Product>().ReverseMap()
                  .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<ProductImage, ProductImageDTO>().ReverseMap();
+
+            //CartItem
+            CreateMap<CartItem, CartItemDTO>().ReverseMap();
+
+            CreateMap<StoreLocationDTO, StoreLocation>();
+            CreateMap<StoreLocation, StoreLocationDTO>(); // Nếu cần ánh xạ ngược
         }
     }
 }

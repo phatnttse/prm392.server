@@ -21,6 +21,7 @@ using Microsoft.IdentityModel.Logging;
 using PRM392.Repositories.DbContext;
 using PRM392.Repositories.Entities;
 using PRM392.Repositories;
+using PRM392.Utils;
 
 namespace PRM392.API
 {
@@ -231,18 +232,22 @@ namespace PRM392.API
             builder.Services.AddScoped<NotificationRepository>();
             builder.Services.AddScoped<ChatMessageRepository>();
             builder.Services.AddScoped<StoreLocationRepository>();
+            builder.Services.AddScoped<IStoreLocation,StoreLocationRepository>();
+            builder.Services.AddScoped<ProductImageRepository>();
 
             //Services
+            builder.Services.AddScoped<IStorageService, StorageService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IUserRoleService, UserRoleService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
-            //builder.Services.AddScoped<IProductService, ProductService>();
-            //builder.Services.AddScoped<ICartItemService, CartItemService>();
+            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<ICartItemService, CartItemService>();
             //builder.Services.AddScoped<IOrderService, OrderService>();
             //builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
             //builder.Services.AddScoped<INotificationService, NotificationService>();
             //builder.Services.AddScoped<IChatMessageService, ChatMessageService>();
             //builder.Services.AddScoped<IStoreLocationService, StoreLocationService>();
+            builder.Services.AddScoped<IStoreLocationService, StoreLocationService>();
 
             // HttpClient
             builder.Services.AddHttpClient();
@@ -282,12 +287,17 @@ namespace PRM392.API
 
             app.UseHttpsRedirection();
 
+            app.UseRouting(); // Đảm bảo gọi UseRouting trước
+
             app.UseAuthentication();
 
             app.UseAuthorization();
 
-
             app.MapControllers();
+
+            // Configure HttpContextAccessor for Utilities
+            var httpContextAccessor = app.Services.GetRequiredService<IHttpContextAccessor>();
+            Utilities.Configure(httpContextAccessor);
 
             /************* SEED DATABASE *************/
 

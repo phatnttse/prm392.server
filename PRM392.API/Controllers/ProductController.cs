@@ -50,7 +50,7 @@ namespace PRM392.API.Controllers
         /// <param name="body">The product details.</param>
         /// <returns>The created product.</returns>
         [HttpPost]
-        public async Task<IActionResult> CreateProduct([FromForm] CreateUpdateProductDTO body)
+        public async Task<IActionResult> CreateProduct([FromBody] CreateUpdateProductDTO body)
         {
             return Created("", await _productService.CreateProduct(body));
         }
@@ -62,7 +62,7 @@ namespace PRM392.API.Controllers
         /// <param name="body">The updated product details.</param>
         /// <returns>The updated product.</returns>
         [HttpPatch("{id}")]
-        public async Task<IActionResult> UpdateProduct(string id, [FromForm] CreateUpdateProductDTO body)
+        public async Task<IActionResult> UpdateProduct(string id, [FromBody] CreateUpdateProductDTO body)
         {
             return Ok(await _productService.UpdateProduct(id, body));
         }

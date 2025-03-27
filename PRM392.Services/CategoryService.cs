@@ -3,7 +3,6 @@ using PRM392.Repositories.Entities;
 using PRM392.Repositories.Enums;
 using PRM392.Repositories.Interfaces;
 using PRM392.Repositories.Models;
-using PRM392.Services.DTOs.Cart;
 using PRM392.Services.DTOs.Category;
 using PRM392.Services.Interfaces;
 using PRM392.Utils;
@@ -27,19 +26,7 @@ namespace PRM392.Services
         {
             try
             {
-
-                var categoryCode = Utilities.RemoveDiacritics(new string(body.Name!.Trim().ToUpper().Take(3).ToArray()));
-
-                var cate = await _unitOfWork.CategoryRepository.GetCategoryByCodeAsync(categoryCode!);
-
-                if (cate != null)
-                {
-                    throw new ApiException("Category is already exist", System.Net.HttpStatusCode.BadRequest);
-                }
-
                 var category = _mapper.Map<Category>(body);
-
-                category.Code = categoryCode!;
 
                 category.ActiveFlag = (byte)ActiveFlag.Active;
 
@@ -64,12 +51,7 @@ namespace PRM392.Services
                 throw new ApiException(ex.Message, System.Net.HttpStatusCode.InternalServerError);
             }
         }
-
-        public Task<ApplicationResponse> CreateCategory(CreateUpdateCartItemDTO body)
-        {
-            throw new NotImplementedException();
-        }
-
+      
         public async Task<ApplicationResponse> DeleteCategory(string id)
         {
             try

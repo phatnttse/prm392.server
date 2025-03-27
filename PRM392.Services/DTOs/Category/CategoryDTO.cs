@@ -8,10 +8,9 @@ namespace PRM392.Services.DTOs.Category
 {
     public class CategoryDTO
     {
-        public int Id { get; set; }
+        public string? Id { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
-        public string? Code { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset UpdatedAt { get; set; }
         public byte ActiveFlag { get; set; }

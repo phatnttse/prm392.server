@@ -26,6 +26,7 @@ namespace PRM392.Repositories.DbContext
         public DbSet<ChatMessage> ChatMessages { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<StoreLocation> StoreLocations { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
