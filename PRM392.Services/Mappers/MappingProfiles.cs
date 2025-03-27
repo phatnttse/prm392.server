@@ -2,6 +2,8 @@
 using PRM392.Repositories.Entities;
 using PRM392.Services.DTOs.Category;
 using PRM392.Services.DTOs.Product;
+using PRM392.Repositories.Entities;
+using PRM392.Services.DTOs.StoreLocation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +24,9 @@ namespace PRM392.Services.Mappers
             CreateMap<Product, ProductDTO>().ReverseMap();
             CreateMap<CreateUpdateProductDTO, Product>().ReverseMap()
                  .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
+
+            CreateMap<StoreLocationDTO, StoreLocation>();
+            CreateMap<StoreLocation, StoreLocationDTO>(); // Nếu cần ánh xạ ngược
         }
     }
 }
