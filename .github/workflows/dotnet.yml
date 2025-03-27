@@ -51,5 +51,9 @@ jobs:
             docker run -d --name prm392-app \
               -p 7267:7267 \
               -e DB_CONNECTION_STRING="${{ secrets.DB_CONNECTION_STRING }}" \
+              -e PAYOS_CLIENT_ID="${{ secrets.PAYOS_CLIENT_ID }}" \
+              -e PAYOS_API_KEY="${{ secrets.PAYOS_API_KEY }}" \
+              -e PAYOS_CHECKSUM_KEY="${{ secrets.PAYOS_CHECKSUM_KEY }}" \
+              -e PAYOS_PAYMENT_RETURN_URL="${{ secrets.PAYOS_PAYMENT_RETURN_URL }}" \
               ${{ secrets.DOCKER_USERNAME }}/prm392-app:latest
           EOF
