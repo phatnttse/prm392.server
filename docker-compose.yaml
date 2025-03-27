@@ -2,25 +2,25 @@ version: "3.8"
 
 services:
   bonheur-server-container:
-    container_name: bonheur-server-container
+    container_name: prm392-server-container
     build:
       context: .
       dockerfile: DockerfileDotNet
     ports:
-      - "8080:8080"
+      - "2703:2703"
     networks:
-      - bonheur-network
+      - prm392-network
     env_file:
-      - Bonheur.API/.env
+      - PRM392.API/.env
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      test: ["CMD", "curl", "-f", "http://localhost:2703"]
       interval: 30s
       retries: 5
       start_period: 30s
       timeout: 10s
 networks:
   bonheur-network:
-    name: bonheur-network
+    name: prm392-network
     driver: bridge
 
-#docker-compose -f ./docker-compose.yaml up -d bonheur-server-container
+#docker-compose -f ./docker-compose.yaml up -d prm392-server-container
