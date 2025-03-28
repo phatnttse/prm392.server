@@ -7,13 +7,13 @@ services:
       context: .
       dockerfile: DockerfileDotNet
     ports:
-      - "2703:2703"
+      - "7267:7267"
     networks:
       - prm392-network
     env_file:
       - PRM392.API/.env
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:2703"]
+      test: ["CMD", "curl", "-f", "http://localhost:7267"]
       interval: 30s
       retries: 5
       start_period: 30s
@@ -23,4 +23,3 @@ networks:
     name: prm392-network
     driver: bridge
 
-#docker-compose -f ./docker-compose.yaml up -d prm392-server-container

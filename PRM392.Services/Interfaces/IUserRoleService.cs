@@ -1,5 +1,5 @@
-﻿using Bonheur.Services.DTOs.Account;
-using PRM392.Repositories.Models;
+﻿using PRM392.Repositories.Models;
+using PRM392.Services.DTOs.Account;
 using System;
 using System.Collections.Generic;
 using System.Linq;

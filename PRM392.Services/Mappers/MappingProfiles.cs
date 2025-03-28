@@ -4,13 +4,9 @@ using PRM392.Services.DTOs.Cart;
 using PRM392.Services.DTOs.Category;
 using PRM392.Services.DTOs.Product;
 using PRM392.Services.DTOs.StoreLocation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PRM392.Services.DTOs.Chat;
 using PRM392.Services.DTOs.Notification;
+using PRM392.Services.DTOs.Order;
 
 namespace PRM392.Services.Mappers
 {
@@ -42,6 +38,12 @@ namespace PRM392.Services.Mappers
             //Notification
             CreateMap<Notification, NotificationDTO>().ReverseMap();
             CreateMap<NotificationDTO, Notification>().ReverseMap();
+
+            //Order
+            CreateMap<Order, OrderDTO>().ReverseMap();
+            CreateMap<CreateOrderDTO, Order>().ReverseMap()
+                 .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<OrderDetail, OrderDetailDTO>().ReverseMap();
         }
     }
 }

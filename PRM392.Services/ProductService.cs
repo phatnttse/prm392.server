@@ -14,15 +14,13 @@ namespace PRM392.Services
         #region Properties
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly IStorageService _storageService;
         #endregion
 
         #region Ctors
-        public ProductService(IUnitOfWork unitOfWork, IMapper mapper, IStorageService storageService)
+        public ProductService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _storageService = storageService;
         }
         #endregion
 
@@ -30,8 +28,12 @@ namespace PRM392.Services
         public async Task<ApplicationResponse> CreateProduct(CreateUpdateProductDTO body)
         {
             try
-            {                
-                var product = _mapper.Map<Product>(body);
+            {   
+                if (body.Price <= 0) throw new ApiException("Price must be greater than 0", System.Net.HttpStatusCode.BadRequest);
+
+                if (body.StockQuantity <= 0) throw new ApiException("Stock quantity must be greater than 0", System.Net.HttpStatusCode.BadRequest);
+
+                Product product = _mapper.Map<Product>(body);
               
                 product.ActiveFlag = (byte)ActiveFlag.Active;
 
@@ -202,6 +204,8 @@ namespace PRM392.Services
         {
             try
             {
+                if (body.Price <= 0) throw new ApiException("Price must be greater than 0", System.Net.HttpStatusCode.BadRequest);
+
                 Product product = await _unitOfWork.ProductRepository.GetByIdAsync(id) ?? throw new ApiException("Product not found", System.Net.HttpStatusCode.NotFound);
 
                 _mapper.Map(body, product);
