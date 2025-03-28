@@ -61,6 +61,7 @@ namespace PRM392.Services
             try
             {
                 var principal = await _signInManager.CreateUserPrincipalAsync(user);
+
                 principal.SetScopes(scopes);
 
                 var identity = principal.Identity as ClaimsIdentity

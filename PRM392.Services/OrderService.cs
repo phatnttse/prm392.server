@@ -65,8 +65,6 @@ namespace PRM392.Services
 
                 order.Amount = amount;
 
-                _unitOfWork.OrderRepository.Update(order);
-
                 if (body.PaymentMethod == PaymentMethod.Cash)
                 {
                     await _unitOfWork.CartItemRepository.ClearCartByUserId(currentUserId);
