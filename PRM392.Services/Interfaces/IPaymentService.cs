@@ -12,6 +12,6 @@ namespace PRM392.Services.Interfaces
     public interface IPaymentService
     {
         Task<PaymentResponse> PayOsTransferHandler(WebhookType body);
-        Task<ApplicationResponse> GetPaymentRequestInfo(string orderCode);
+        Task<ApplicationResponse> GetPaymentRequestInfo(int orderCode);
     }
 }

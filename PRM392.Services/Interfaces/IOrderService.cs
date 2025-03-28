@@ -12,5 +12,6 @@ namespace PRM392.Services.Interfaces
     {
         Task<ApplicationResponse> CreateOrder(CreateOrderDTO body);
         Task<ApplicationResponse> GetOrderByCode(int orderCode);
+        Task<ApplicationResponse> GetOrdersByUser();
     }
 }
