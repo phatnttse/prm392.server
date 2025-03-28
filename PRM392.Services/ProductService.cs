@@ -100,53 +100,7 @@ namespace PRM392.Services
             }
         }
 
-        public async Task<ApplicationResponse> GetListProductAfterFilterByCategory(string categoryId)
-        {
-            try
-            {
-                var listProductsByCategory = await _unitOfWork.ProductRepository.GetListProductAfterFilterByCategory(categoryId) ?? throw new ApiException("Category not found", System.Net.HttpStatusCode.NotFound);
-                var listProductsByCategoryDTO = _mapper.Map<List<ProductDTO>>(listProductsByCategory);
-                return new ApplicationResponse
-                {
-                    Success = true,
-                    Message = "List products by category retrieved successfully",
-                    Data = listProductsByCategoryDTO,
-                    StatusCode = System.Net.HttpStatusCode.OK
-                };
-            }
-            catch (ApiException)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                throw new ApiException(ex.Message, System.Net.HttpStatusCode.InternalServerError);
-            }
-        }
-
-        public async Task<ApplicationResponse> GetListProductAfterFilterByPrice(decimal minPrice, decimal maxPrice)
-        {
-            try
-            {
-                var listProductByPriceRange = await _unitOfWork.ProductRepository.GetListProductAfterFilterByPrice(minPrice, maxPrice) ?? throw new ApiException("Product not found", System.Net.HttpStatusCode.NotFound);
-                var listProductByPriceRangeDTO = _mapper.Map<List<ProductDTO>>(listProductByPriceRange);
-                return new ApplicationResponse
-                {
-                    Success = true,
-                    Message = "List products by price range retrieved successfully",
-                    Data = listProductByPriceRangeDTO,
-                    StatusCode = System.Net.HttpStatusCode.OK
-                };
-            }
-            catch (ApiException)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                throw new ApiException(ex.Message, System.Net.HttpStatusCode.InternalServerError);
-            }
-        }
+        
 
         public async Task<ApplicationResponse> GetProductById(string id)
         {
@@ -189,6 +143,31 @@ namespace PRM392.Services
                     StatusCode = System.Net.HttpStatusCode.OK
                 };
 
+            }
+            catch (ApiException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ApiException(ex.Message, System.Net.HttpStatusCode.InternalServerError);
+            }
+        }
+
+        public async Task<ApplicationResponse> GetProductsFilteredAndSorted(string? sortBy = null, string? categoryId = null, decimal? minPrice = null, decimal? maxPrice = null)
+        {
+            try
+            {
+                var listProducts = await _unitOfWork.ProductRepository.GetProductsAsync();
+                var listConditionalProducts = _unitOfWork.ProductRepository.GetFilteredAndSortedProducts(listProducts, sortBy, categoryId, minPrice, maxPrice);
+                var listConditionalProductsDTO = _mapper.Map<List<ProductDTO>>(listConditionalProducts);
+                return new ApplicationResponse
+                {
+                    Success = true,
+                    Message = "Get product filtered and sorted successfully!",
+                    Data = listConditionalProductsDTO,
+                    StatusCode = System.Net.HttpStatusCode.OK
+                };
             }
             catch (ApiException)
             {
