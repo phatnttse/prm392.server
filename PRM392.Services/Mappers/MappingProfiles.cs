@@ -7,6 +7,7 @@ using PRM392.Services.DTOs.StoreLocation;
 using PRM392.Services.DTOs.Chat;
 using PRM392.Services.DTOs.Notification;
 using PRM392.Services.DTOs.Order;
+using PRM392.Services.DTOs.Account;
 
 namespace PRM392.Services.Mappers
 {
@@ -44,6 +45,12 @@ namespace PRM392.Services.Mappers
             CreateMap<CreateOrderDTO, Order>().ReverseMap()
                  .ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
             CreateMap<OrderDetail, OrderDetailDTO>().ReverseMap();
+
+            // UserAccount
+            CreateMap<ApplicationUser, UserAccountDTO>().ReverseMap();
+
+            //Message
+            CreateMap<ChatMessage, MessageDTO>().ReverseMap();
         }
     }
 }

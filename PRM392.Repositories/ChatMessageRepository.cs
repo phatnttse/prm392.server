@@ -1,4 +1,5 @@
-﻿using PRM392.Repositories.Base;
+﻿using Microsoft.EntityFrameworkCore;
+using PRM392.Repositories.Base;
 using PRM392.Repositories.DbContext;
 using PRM392.Repositories.Entities;
 using System;
@@ -13,6 +14,14 @@ namespace PRM392.Repositories
     {
         public ChatMessageRepository(ApplicationDbContext context) : base(context)
         {
+        }
+
+        public async Task<List<ChatMessage>> GetChatMessagesAsync(string senderId, string receiverId)
+        {
+            return await _context.ChatMessages
+                .Where(c => (c.SenderId == senderId && c.ReceiverId == receiverId) || (c.SenderId == receiverId && c.ReceiverId == senderId))
+                .OrderByDescending(c => c.CreatedAt)
+                .ToListAsync();
         }
     }
 }
