@@ -1,4 +1,5 @@
-﻿using PRM392.Repositories.Models;
+﻿using PRM392.Repositories.Entities;
+using PRM392.Repositories.Models;
 using PRM392.Services.DTOs.Product;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,10 @@ namespace PRM392.Services.Interfaces
         Task<ApplicationResponse> CreateProduct(CreateUpdateProductDTO body);
         Task<ApplicationResponse> UpdateProduct(string id, CreateUpdateProductDTO body);
         Task<ApplicationResponse> DeleteProduct(string id);
-        Task<ApplicationResponse> GetListProductAfterFilterByPrice(decimal minPrice, decimal maxPrice);
-        Task<ApplicationResponse> GetListProductAfterFilterByCategory(string categoryId);
+        Task<ApplicationResponse> GetProductsFilteredAndSorted(
+            string? sortBy = null,
+            string? categoryId = null,
+            decimal? minPrice = null,
+            decimal? maxPrice = null);
     }
 }

@@ -28,9 +28,9 @@ namespace PRM392.API.Controllers
         /// </summary>
         /// <returns>A list of products.</returns>
         [HttpGet]
-        public async Task<IActionResult> GetProducts()
+        public async Task<IActionResult> GetProducts([FromQuery] string? sortBy = null, [FromQuery] string? categoryId = null, [FromQuery] decimal? minPrice = null, [FromQuery] decimal? maxPrice = null)
         {
-            return Ok(await _productService.GetProducts());
+            return Ok(await _productService.GetProductsFilteredAndSorted(sortBy, categoryId, minPrice, maxPrice));
         }
 
         /// <summary>
@@ -76,22 +76,6 @@ namespace PRM392.API.Controllers
         public async Task<IActionResult> DeleteProduct(string id)
         {
             return Ok(await _productService.DeleteProduct(id));
-        }
-
-        /// <summary>
-        /// 
-        [HttpGet("filterByPrice")]
-        public async Task<IActionResult> GetListProductAfterFilterByPrice([FromQuery] decimal minPrice, [FromQuery] decimal maxPrice)
-        {
-            return Ok(await _productService.GetListProductAfterFilterByPrice(minPrice, maxPrice));
-        }
-
-        /// <summary>
-        /// 
-        [HttpGet("filterByCategory")]
-        public async Task<IActionResult> GetListProductAfterFilterByCategory([FromQuery] string categoryId)
-        {
-            return Ok(await _productService.GetListProductAfterFilterByCategory(categoryId));
         }
     }
 }

@@ -36,22 +36,43 @@ namespace PRM392.Repositories
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<List<Product>> GetListProductAfterFilterByPrice(decimal minPrice, decimal maxPrice)
+        public List<Product> GetFilteredAndSortedProducts(
+            List<Product> products,
+            string? sortBy = null,
+            string? categoryId = null,
+            decimal? minPrice = null,
+            decimal? maxPrice = null)
         {
-            return await _context.Products
-                .Where(p => p.Price >= minPrice && p.Price <= maxPrice)
-                .Include(p => p.Category)
-                .Include(p => p.Images)
-                .ToListAsync();
+            var query = products.AsQueryable();
+
+            // Lọc theo danh mục
+            if (!string.IsNullOrEmpty(categoryId))
+            {
+                query = query.Where(p => p.CategoryId == categoryId);
+            }
+
+            // Lọc theo khoảng giá
+            if (minPrice.HasValue)
+            {
+                query = query.Where(p => p.Price >= minPrice.Value);
+            }
+
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(p => p.Price <= maxPrice.Value);
+            }
+
+            // Sắp xếp theo tiêu chí được chọn
+            query = sortBy switch
+            {
+                "price_asc" => query.OrderBy(p => p.Price),
+                "price_desc" => query.OrderByDescending(p => p.Price),
+                "category" => query.OrderBy(p => p.Category),
+                _ => query
+            };
+
+            return query.ToList();
         }
 
-        public async Task<List<Product>> GetListProductAfterFilterByCategory(string categoryId)
-        {
-            return await _context.Products
-                .Where(p => p.CategoryId == categoryId)
-                .Include(p => p.Category)
-                .Include(p => p.Images)
-                .ToListAsync();
-        }
     }
 }
