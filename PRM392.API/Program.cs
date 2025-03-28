@@ -116,6 +116,10 @@ namespace PRM392.API
                     options.AllowPasswordFlow()
                            .AllowRefreshTokenFlow();
 
+                    options.SetAccessTokenLifetime(TimeSpan.FromDays(7)); 
+                    options.SetRefreshTokenLifetime(TimeSpan.FromDays(30)); 
+
+
                     options.RegisterScopes(
                         Scopes.Profile,
                         Scopes.Email,
@@ -171,6 +175,15 @@ namespace PRM392.API
                 o.DefaultAuthenticateScheme = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
                 o.DefaultChallengeScheme = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
             });
+
+            builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
+            {
+                options.TokenLifespan = TimeSpan.FromDays(7); 
+            });
+
+           
+
+
 
             // Add cors
             builder.Services.AddCors();
@@ -272,7 +285,7 @@ namespace PRM392.API
             // HttpClient
             builder.Services.AddHttpClient();
 
-            builder.WebHost.UseUrls("http://*:7267");
+            //builder.WebHost.UseUrls("http://*:7267");
 
             var app = builder.Build();
 
