@@ -77,5 +77,21 @@ namespace PRM392.API.Controllers
         {
             return Ok(await _productService.DeleteProduct(id));
         }
+
+        /// <summary>
+        /// 
+        [HttpGet("filterByPrice")]
+        public async Task<IActionResult> GetListProductAfterFilterByPrice([FromQuery] decimal minPrice, [FromQuery] decimal maxPrice)
+        {
+            return Ok(await _productService.GetListProductAfterFilterByPrice(minPrice, maxPrice));
+        }
+
+        /// <summary>
+        /// 
+        [HttpGet("filterByCategory")]
+        public async Task<IActionResult> GetListProductAfterFilterByCategory([FromQuery] string categoryId)
+        {
+            return Ok(await _productService.GetListProductAfterFilterByCategory(categoryId));
+        }
     }
 }

@@ -6,6 +6,7 @@ using PRM392.Repositories.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,6 +34,24 @@ namespace PRM392.Repositories
                 .Include(p => p.Category)
                 .Include(p => p.Images)
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<List<Product>> GetListProductAfterFilterByPrice(decimal minPrice, decimal maxPrice)
+        {
+            return await _context.Products
+                .Where(p => p.Price >= minPrice && p.Price <= maxPrice)
+                .Include(p => p.Category)
+                .Include(p => p.Images)
+                .ToListAsync();
+        }
+
+        public async Task<List<Product>> GetListProductAfterFilterByCategory(string categoryId)
+        {
+            return await _context.Products
+                .Where(p => p.CategoryId == categoryId)
+                .Include(p => p.Category)
+                .Include(p => p.Images)
+                .ToListAsync();
         }
     }
 }
