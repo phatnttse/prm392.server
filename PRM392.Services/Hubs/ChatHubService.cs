@@ -209,7 +209,7 @@ namespace PRM392.Services.Hubs
 
                 HashSet<string> onlineUsersSet = onlineUsers != null ? new HashSet<string>(onlineUsers.Keys) : new HashSet<string>();
 
-                List<ApplicationUser> users = _unitOfWork.UserAccountRepository.GetAllUsersAsync() ?? new List<ApplicationUser>();
+                List<ApplicationUser> users = _unitOfWork.UserAccountRepository.GetAllUsersWithRoleUser() ?? new List<ApplicationUser>();
 
                 List<OnlineUserDTO> onlineUserDTOs = users.Select(u => new OnlineUserDTO
                 {

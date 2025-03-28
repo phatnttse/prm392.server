@@ -65,6 +65,12 @@ namespace PRM392.Repositories
             return _userManager.Users.ToList();
         }
 
+        public List<ApplicationUser> GetAllUsersWithRoleUser()
+        {
+            var userAccounts = _userManager.GetUsersInRoleAsync(Constants.Roles.USER).GetAwaiter().GetResult();
+            return userAccounts.ToList();
+        }
+
         public async Task<(ApplicationUser User, string[] Roles)?> GetUserAndRolesAsync(string userId)
         {
             var user = await _context.Users
