@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using PRM392.Repositories.Base;
 using PRM392.Repositories.DbContext;
 using PRM392.Repositories.Entities;
@@ -57,5 +58,11 @@ namespace PRM392.Repositories
             var result = await _userManager.DeleteAsync(user);
             return (result.Succeeded, result.Errors.Select(e => e.Description).ToArray());
         }
+
+        public List<ApplicationUser> GetAllUsersAsync()
+        {
+            return _userManager.Users.ToList();
+        }
+
     }
 }

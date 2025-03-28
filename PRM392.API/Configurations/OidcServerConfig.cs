@@ -6,7 +6,7 @@ namespace PRM392.API.Configurations
     public static class OidcServerConfig
     {
         public const string ServerName = "PRM392 API";
-        public const string PetShopClientID = "prm392_spa";
+        public const string PRM392ClientID = "prm392_spa";
         public const string SwaggerClientID = "swagger_ui";
 
         public static async Task RegisterClientApplicationsAsync(IServiceProvider provider)
@@ -14,11 +14,11 @@ namespace PRM392.API.Configurations
             var manager = provider.GetRequiredService<IOpenIddictApplicationManager>();
 
             //Client
-            if (await manager.FindByClientIdAsync(PetShopClientID) is null)
+            if (await manager.FindByClientIdAsync(PRM392ClientID) is null)
             {
                 await manager.CreateAsync(new OpenIddictApplicationDescriptor
                 {
-                    ClientId = PetShopClientID,
+                    ClientId = PRM392ClientID,
                     ClientType = ClientTypes.Public,
                     DisplayName = "PRM392 SPA",
                     Permissions =

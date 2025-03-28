@@ -10,7 +10,12 @@ namespace PRM392.Repositories.Entities
     public class ChatMessage : BaseEntity
     {
         public string? Message { get; set; }
-        public string? UserId { get; set; }
-        public virtual ApplicationUser? User { get; set; }
+        public string? SenderId { get; set; }
+        public virtual ApplicationUser? Sender { get; set; }
+        public string? ReceiverId { get; set; }
+        public virtual ApplicationUser? Receiver { get; set; }
+        public string? AttachmentUrl { get; set; }  
+        public bool IsRead { get; set; }  
+
     }
 }

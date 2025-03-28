@@ -23,6 +23,9 @@ using PRM392.Repositories.Entities;
 using PRM392.Repositories;
 using PRM392.Utils;
 using Net.payOS;
+using PRM392.Services.Hubs;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace PRM392.API
 {
@@ -57,7 +60,7 @@ namespace PRM392.API
             {
                 options.UseNpgsql(connectionString, b => b.MigrationsAssembly(migrationsAssembly));
                 options.UseOpenIddict();
-            });
+            }, ServiceLifetime.Scoped);
 
             // Add Identity
             builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
@@ -174,6 +177,47 @@ namespace PRM392.API
                 o.DefaultScheme = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
                 o.DefaultAuthenticateScheme = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
                 o.DefaultChallengeScheme = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
+            })
+            .AddCookie()
+            .AddOpenIdConnect(options =>
+            {
+                options.Authority = "https://prm392.bonheur.pro";
+                options.ClientId = OidcServerConfig.PRM392ClientID;
+                options.SaveTokens = true;
+                options.ResponseType = "code";
+                options.Scope.Add("openid");
+                options.Scope.Add("profile");
+                options.Scope.Add("email");
+                options.Scope.Add("offline_access ");
+                options.Scope.Add("roles");
+                options.GetClaimsFromUserInfoEndpoint = true;
+
+                // Lấy access_token từ query 
+                options.Events.OnMessageReceived = context =>
+                {
+                    var accessToken = context.Request.Query["access_token"].ToString();
+                    if (!string.IsNullOrEmpty(accessToken))
+                    {
+                        // Thêm token vào header Authorization
+                        context.HttpContext.Request.Headers["Authorization"] = "Bearer " + accessToken;
+                        context.Token = accessToken;
+                    }
+                    return Task.CompletedTask;
+                };
+
+                options.Events.OnTokenValidated = context =>
+                {
+                    var token = context.SecurityToken as JwtSecurityToken;
+                    var userId = token?.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+
+                    if (userId != null)
+                    {
+                        var claimsIdentity = (ClaimsIdentity)context.Principal.Identity;
+                        claimsIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userId));
+                    }
+
+                    return Task.CompletedTask;
+                };
             });
 
             builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
@@ -183,7 +227,17 @@ namespace PRM392.API
 
 
             // Add cors
-            builder.Services.AddCors();
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecification", policy =>
+                {
+                    policy.WithOrigins("http://localhost:4300")
+                          .AllowAnyMethod()
+                          .AllowAnyHeader()
+                          .AllowCredentials(); // Enable credentials (cookies, authorization headers)
+                });
+            });
+
 
             // Add controllers
             builder.Services.AddControllers()
@@ -282,9 +336,14 @@ namespace PRM392.API
             // HttpClient
             builder.Services.AddHttpClient();
 
-            //builder.WebHost.UseUrls("http://*:7267");
+            //SignalR
+            builder.Services.AddSignalR();
+
+            builder.WebHost.UseUrls("http://*:7267");
 
             var app = builder.Build();
+
+            app.UseCors("AllowSpecification");
 
             app.UseCors(builder => builder
             .AllowAnyOrigin()
@@ -326,6 +385,8 @@ namespace PRM392.API
             app.UseAuthorization();
 
             app.MapControllers();
+
+            app.MapHub<ChatHubService>("/hubs/chat");
 
             // Configure HttpContextAccessor for Utilities
             var httpContextAccessor = app.Services.GetRequiredService<IHttpContextAccessor>();
