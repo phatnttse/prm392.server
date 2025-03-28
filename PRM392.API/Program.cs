@@ -117,7 +117,7 @@ namespace PRM392.API
                            .AllowRefreshTokenFlow();
 
                     options.SetAccessTokenLifetime(TimeSpan.FromDays(7)); 
-                    options.SetRefreshTokenLifetime(TimeSpan.FromDays(30)); 
+                    options.SetRefreshTokenLifetime(TimeSpan.FromDays(14)); 
 
 
                     options.RegisterScopes(
@@ -180,9 +180,6 @@ namespace PRM392.API
             {
                 options.TokenLifespan = TimeSpan.FromDays(7); 
             });
-
-           
-
 
 
             // Add cors
