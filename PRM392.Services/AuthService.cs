@@ -69,6 +69,9 @@ namespace PRM392.Services
 
                 principal.SetDestinations(GetDestinations);
 
+                principal.SetAccessTokenLifetime(TimeSpan.FromDays(7));
+                principal.SetRefreshTokenLifetime(TimeSpan.FromDays(14));
+
                 return principal;
 
             }
