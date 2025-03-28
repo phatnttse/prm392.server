@@ -19,10 +19,21 @@ namespace PRM392.Repositories
         public async Task<Order?> GetOrderByCodeAsync(int code)
         {
             return await _context.Orders
+                .Where(o => o.OrderCode == code)
                 .Include(o => o.OrderDetails)
                 .ThenInclude(od => od.Product)
-                .Where(o => o.OrderCode == code)
+                .ThenInclude(p => p.Images)
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<List<Order>> GetOrdersByUserIdAsync(string userId)
+        {
+            return await _context.Orders
+                .Where(o => o.UserId == userId)
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.Product)
+                .ThenInclude(p => p.Images)
+                .ToListAsync();
         }
     }
 }

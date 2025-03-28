@@ -46,7 +46,7 @@ namespace PRM392.API.Controllers
         /// <returns>An <see cref="IActionResult"/> representing the result of the operation.</returns>
         [HttpGet("info/{orderCode}")]
         [Authorize]
-        public async Task<IActionResult> GetPaymentRequestInfo(string orderCode)
+        public async Task<IActionResult> GetPaymentRequestInfo(int orderCode)
         {
             return Ok(await _paymentService.GetPaymentRequestInfo(orderCode));
         }
