@@ -21,4 +21,8 @@
 		<PackageReference Include="X.PagedList" Version="10.5.7" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\PRM392.Utils\PRM392.Utils.csproj" />
+	</ItemGroup>
+
 </Project>

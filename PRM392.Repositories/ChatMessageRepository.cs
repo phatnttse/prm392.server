@@ -16,10 +16,12 @@ namespace PRM392.Repositories
         {
         }
 
-        public async Task<List<ChatMessage>> GetChatMessagesAsync(string senderId, string receiverId)
+        public async Task<List<ChatMessage>> GetChatMessagesAsync(string senderId, string receiverId, int pageNumber, int pageSize)
         {
             return await _context.ChatMessages
                 .Where(c => (c.SenderId == senderId && c.ReceiverId == receiverId) || (c.SenderId == receiverId && c.ReceiverId == senderId))
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .OrderByDescending(c => c.CreatedAt)
                 .ToListAsync();
         }

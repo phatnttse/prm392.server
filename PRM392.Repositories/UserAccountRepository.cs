@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PRM392.Repositories.Base;
 using PRM392.Repositories.DbContext;
 using PRM392.Repositories.Entities;
+using PRM392.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,6 +63,32 @@ namespace PRM392.Repositories
         public List<ApplicationUser> GetAllUsersAsync()
         {
             return _userManager.Users.ToList();
+        }
+
+        public async Task<(ApplicationUser User, string[] Roles)?> GetUserAndRolesAsync(string userId)
+        {
+            var user = await _context.Users
+                .Include(u => u.Roles)
+                .Where(u => u.Id == userId)
+                .SingleOrDefaultAsync();
+
+            if (user == null)
+                return null;
+
+            var userRoleIds = user.Roles.Select(r => r.RoleId).ToList();
+
+            var roles = await _context.Roles
+                .Where(r => userRoleIds.Contains(r.Id))
+                .Select(r => r.Name!)
+                .ToArrayAsync();
+
+            return (user, roles);
+        }
+
+        public async Task<ApplicationUser?> GetAdminAccount()
+        {
+            var adminUsers = await _userManager.GetUsersInRoleAsync(Constants.Roles.ADMIN);
+            return adminUsers.FirstOrDefault();
         }
 
     }
