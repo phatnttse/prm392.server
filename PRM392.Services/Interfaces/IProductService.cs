@@ -15,5 +15,7 @@ namespace PRM392.Services.Interfaces
         Task<ApplicationResponse> CreateProduct(CreateUpdateProductDTO body);
         Task<ApplicationResponse> UpdateProduct(string id, CreateUpdateProductDTO body);
         Task<ApplicationResponse> DeleteProduct(string id);
+        Task<ApplicationResponse> GetListProductAfterFilterByPrice(decimal minPrice, decimal maxPrice);
+        Task<ApplicationResponse> GetListProductAfterFilterByCategory(string categoryId);
     }
 }

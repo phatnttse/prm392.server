@@ -100,6 +100,54 @@ namespace PRM392.Services
             }
         }
 
+        public async Task<ApplicationResponse> GetListProductAfterFilterByCategory(string categoryId)
+        {
+            try
+            {
+                var listProductsByCategory = await _unitOfWork.ProductRepository.GetListProductAfterFilterByCategory(categoryId) ?? throw new ApiException("Category not found", System.Net.HttpStatusCode.NotFound);
+                var listProductsByCategoryDTO = _mapper.Map<List<ProductDTO>>(listProductsByCategory);
+                return new ApplicationResponse
+                {
+                    Success = true,
+                    Message = "List products by category retrieved successfully",
+                    Data = listProductsByCategoryDTO,
+                    StatusCode = System.Net.HttpStatusCode.OK
+                };
+            }
+            catch (ApiException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ApiException(ex.Message, System.Net.HttpStatusCode.InternalServerError);
+            }
+        }
+
+        public async Task<ApplicationResponse> GetListProductAfterFilterByPrice(decimal minPrice, decimal maxPrice)
+        {
+            try
+            {
+                var listProductByPriceRange = await _unitOfWork.ProductRepository.GetListProductAfterFilterByPrice(minPrice, maxPrice) ?? throw new ApiException("Product not found", System.Net.HttpStatusCode.NotFound);
+                var listProductByPriceRangeDTO = _mapper.Map<List<ProductDTO>>(listProductByPriceRange);
+                return new ApplicationResponse
+                {
+                    Success = true,
+                    Message = "List products by price range retrieved successfully",
+                    Data = listProductByPriceRangeDTO,
+                    StatusCode = System.Net.HttpStatusCode.OK
+                };
+            }
+            catch (ApiException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ApiException(ex.Message, System.Net.HttpStatusCode.InternalServerError);
+            }
+        }
+
         public async Task<ApplicationResponse> GetProductById(string id)
         {
             try
