@@ -5,6 +5,7 @@ using PRM392.Repositories.Entities;
 using PRM392.Repositories.Enums;
 using PRM392.Repositories.Interfaces;
 using PRM392.Repositories.Models;
+using PRM392.Services.DTOs.Account;
 using PRM392.Services.DTOs.Chat;
 using PRM392.Utils;
 using System.Collections.Concurrent;
@@ -32,7 +33,7 @@ namespace PRM392.Services.Hubs
             {
                 string currentUserId = Utilities.GetCurrentUserId() ?? throw new ApiException("User not found", System.Net.HttpStatusCode.NotFound);
 
-                ApplicationUser currentUser = await _unitOfWork.UserAccountRepository.GetByIdAsync(currentUserId!) ?? throw new ApiException("User not found", System.Net.HttpStatusCode.NotFound);
+                var result = await _unitOfWork.UserAccountRepository.GetUserAndRolesAsync(currentUserId!) ?? throw new ApiException("User not found", System.Net.HttpStatusCode.NotFound);
 
                 var connectionId = Context.ConnectionId;
 
@@ -45,10 +46,10 @@ namespace PRM392.Services.Hubs
                     var user = new OnlineUserDTO
                     {
                         ConnectionId = connectionId,
-                        Id = currentUser?.Id,
-                        UserName = currentUser?.UserName,
-                        FullName = currentUser?.FullName,
-                        PictureUrl = currentUser?.PictureUrl
+                        Id = result.User.Id,
+                        UserName = result.User?.UserName,
+                        FullName = result.User?.FullName,
+                        PictureUrl = result.User?.PictureUrl
                     };
 
                     onlineUsers.TryAdd(currentUserId!, user);
@@ -56,7 +57,14 @@ namespace PRM392.Services.Hubs
                     await Clients.AllExcept(connectionId).SendAsync("UserConnected", user);
                 }
 
-                await Clients.All.SendAsync("OnlineUsers", this.GetAllOnlineUsers());
+                if (result.Roles.Contains(Constants.Roles.USER))
+                {
+                    await Clients.Caller.SendAsync("OnlineUsers", _mapper.Map<UserAccountDTO>(await this.GetAdminAccount()));
+
+                }else if (result.Roles.Contains(Constants.Roles.ADMIN))
+                {
+                    await Clients.Caller.SendAsync("OnlineUsers", this.GetAllOnlineUsers());
+                }
 
             }
             catch (ApiException)
@@ -112,13 +120,13 @@ namespace PRM392.Services.Hubs
         {
             try
             {
-                //int pageSize = 20;
+                int pageSize = 20;
 
                 string currentUserId = Utilities.GetCurrentUserId() ?? throw new ApiException("User not found", System.Net.HttpStatusCode.NotFound);
 
                 ApplicationUser currentUser = await _unitOfWork.UserAccountRepository.GetByIdAsync(currentUserId!) ?? throw new ApiException("User not found", System.Net.HttpStatusCode.NotFound);
 
-                List<ChatMessage> messages = await _unitOfWork.ChatMessageRepository.GetChatMessagesAsync(currentUserId, recipientId);
+                List<ChatMessage> messages = await _unitOfWork.ChatMessageRepository.GetChatMessagesAsync(currentUserId, recipientId, pageNumber, pageSize);
 
                 foreach (var message in messages)
                 {
@@ -213,6 +221,22 @@ namespace PRM392.Services.Hubs
                 }).ToList();
 
                 return onlineUserDTOs;
+            }
+            catch (ApiException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ApiException(ex.Message, System.Net.HttpStatusCode.InternalServerError);
+            }
+        }
+
+        private async Task<ApplicationUser> GetAdminAccount()
+        {
+            try
+            {
+                return await _unitOfWork.UserAccountRepository.GetAdminAccount() ?? throw new ApiException("Admin account not found", System.Net.HttpStatusCode.NotFound);
             }
             catch (ApiException)
             {
