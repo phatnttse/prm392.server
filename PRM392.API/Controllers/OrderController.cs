@@ -29,7 +29,7 @@ namespace PRM392.API.Controllers
         /// </summary>
         /// <param name="orderCode">The order code.</param>
         /// <returns>The order details.</returns>
-        [HttpGet("{code}")]
+        [HttpGet("{orderCode}")]
         [Authorize]
         public async Task<IActionResult> GetOrderByCode(int orderCode)
         {
@@ -46,6 +46,17 @@ namespace PRM392.API.Controllers
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDTO createOrderDTO)
         {
             return Ok(await _orderService.CreateOrder(createOrderDTO));
+        }
+
+        /// <summary>
+        /// Gets the order history for the current user.
+        /// </summary>
+        /// <returns>The list of orders for the user.</returns>
+        [HttpGet("history")]
+        [Authorize]
+        public async Task<IActionResult> GetOrdersByUser()
+        {
+            return Ok(await _orderService.GetOrdersByUser());
         }
     }
 }

@@ -27,11 +27,11 @@ namespace PRM392.Services
             _logger = logger;
         }
 
-        public async Task<ApplicationResponse> GetPaymentRequestInfo(string orderCode)
+        public async Task<ApplicationResponse> GetPaymentRequestInfo(int orderCode)
         {
             try
             {
-                PaymentLinkInformation paymentLinkInformation = await _payOS.getPaymentLinkInformation(long.Parse(orderCode));
+                PaymentLinkInformation paymentLinkInformation = await _payOS.getPaymentLinkInformation(orderCode);
 
                 if (paymentLinkInformation == null) throw new ApiException("Payment information not found", System.Net.HttpStatusCode.NotFound);
 

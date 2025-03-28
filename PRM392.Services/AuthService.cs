@@ -61,12 +61,16 @@ namespace PRM392.Services
             try
             {
                 var principal = await _signInManager.CreateUserPrincipalAsync(user);
+
                 principal.SetScopes(scopes);
 
                 var identity = principal.Identity as ClaimsIdentity
                     ?? throw new InvalidOperationException("The ClaimsPrincipal's Identity is null.");
 
                 principal.SetDestinations(GetDestinations);
+
+                principal.SetAccessTokenLifetime(TimeSpan.FromDays(7));
+                principal.SetRefreshTokenLifetime(TimeSpan.FromDays(14));
 
                 return principal;
 

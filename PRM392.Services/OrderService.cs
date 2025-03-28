@@ -65,8 +65,6 @@ namespace PRM392.Services
 
                 order.Amount = amount;
 
-                await _unitOfWork.SaveChangesAsync();
-
                 if (body.PaymentMethod == PaymentMethod.Cash)
                 {
                     await _unitOfWork.CartItemRepository.ClearCartByUserId(currentUserId);
@@ -83,6 +81,8 @@ namespace PRM392.Services
                 }
                 else if (body.PaymentMethod == PaymentMethod.BankTransfer)
                 {
+                    await _unitOfWork.SaveChangesAsync();
+
                     List<ItemData> items = newOrderDetails.Select(od =>
                     new ItemData(
                     od.Product?.Name ?? "Unknown",
@@ -154,5 +154,31 @@ namespace PRM392.Services
             }
         }
 
+        public async Task<ApplicationResponse> GetOrdersByUser()
+        {
+            try
+            {
+                string currentUserId = Utilities.GetCurrentUserId() ?? throw new ApiException("Please ensure you are logged in.", System.Net.HttpStatusCode.Unauthorized);
+
+                List<Order> orders = await _unitOfWork.OrderRepository.GetOrdersByUserIdAsync(currentUserId);
+
+                return new ApplicationResponse
+                {
+                    Data = _mapper.Map<List<OrderDTO>>(orders),
+                    Message = "Orders retrieved successfully",
+                    Success = true,
+                    StatusCode = System.Net.HttpStatusCode.OK
+                };
+
+            }
+            catch (ApiException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new ApiException(ex.Message, System.Net.HttpStatusCode.InternalServerError);
+            }
+        }
     }
 }
