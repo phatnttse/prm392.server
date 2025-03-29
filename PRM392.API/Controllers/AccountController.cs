@@ -7,7 +7,7 @@ namespace PRM392.API.Controllers
     /// <summary>
     /// Controller for managing user accounts.
     /// </summary>
-    /// [ApiController]
+    [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/accounts")]
     public class AccountController : ControllerBase

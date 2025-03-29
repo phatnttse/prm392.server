@@ -84,20 +84,9 @@ namespace PRM392.Services
                     await _unitOfWork.SaveChangesAsync();
 
                     List<ItemData> items = newOrderDetails.Select(od =>
-                    new ItemData(
-                    od.Product?.Name ?? "Unknown",
-                    od.Quantity,
-                    (int)od.Price))
-                    .ToList();
+                    new ItemData(od.Product?.Name ?? "Unknown", od.Quantity, (int)od.Price)).ToList();
 
-                    PaymentData paymentData = new PaymentData(
-                    order.OrderCode,
-                    (int)amount,
-                    "Flower Shop Checkout",
-                    items,
-                    this._payOsPaymentReturnUrl,
-                    this._payOsPaymentReturnUrl
-                    );
+                    PaymentData paymentData = new PaymentData(order.OrderCode, (int)amount, "Flower Shop Checkout", items, this._payOsPaymentReturnUrl, this._payOsPaymentReturnUrl);
 
                     CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
 
