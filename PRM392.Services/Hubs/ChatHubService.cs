@@ -13,7 +13,7 @@ using System.Collections.Concurrent;
 
 namespace PRM392.Services.Hubs
 {
-    [Authorize]
+    //[Authorize]
     public sealed class ChatHubService : Hub
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -31,7 +31,11 @@ namespace PRM392.Services.Hubs
         {
             try
             {
-                string currentUserId = Utilities.GetCurrentUserId() ?? throw new ApiException("User not found", System.Net.HttpStatusCode.NotFound);
+                var httpContext = Context.GetHttpContext();
+
+                var currentUserId = httpContext?.Request.Query["senderId"].ToString();
+
+                //string currentUserId = Utilities.GetCurrentUserId() ?? throw new ApiException("User not found", System.Net.HttpStatusCode.NotFound);
 
                 var result = await _unitOfWork.UserAccountRepository.GetUserAndRolesAsync(currentUserId!) ?? throw new ApiException("User not found", System.Net.HttpStatusCode.NotFound);
 
@@ -81,7 +85,11 @@ namespace PRM392.Services.Hubs
         {
             try
             {
-                string senderId = Utilities.GetCurrentUserId() ?? throw new ApiException("Sender not found", System.Net.HttpStatusCode.NotFound);
+                var httpContext = Context.GetHttpContext();
+
+                var senderId = httpContext?.Request.Query["senderId"].ToString();
+
+                //string senderId = Utilities.GetCurrentUserId() ?? throw new ApiException("Sender not found", System.Net.HttpStatusCode.NotFound);
 
                 ChatMessage chatMessage = new ChatMessage
                 {
@@ -122,7 +130,11 @@ namespace PRM392.Services.Hubs
             {
                 int pageSize = 20;
 
-                string currentUserId = Utilities.GetCurrentUserId() ?? throw new ApiException("User not found", System.Net.HttpStatusCode.NotFound);
+                var httpContext = Context.GetHttpContext();
+
+                var currentUserId = httpContext?.Request.Query["senderId"].ToString();
+
+                //string currentUserId = Utilities.GetCurrentUserId() ?? throw new ApiException("User not found", System.Net.HttpStatusCode.NotFound);
 
                 ApplicationUser currentUser = await _unitOfWork.UserAccountRepository.GetByIdAsync(currentUserId!) ?? throw new ApiException("User not found", System.Net.HttpStatusCode.NotFound);
 
@@ -160,7 +172,11 @@ namespace PRM392.Services.Hubs
         {
             try
             {
-                string senderId = Utilities.GetCurrentUserId() ?? throw new ApiException("Sender not found", System.Net.HttpStatusCode.NotFound);
+                var httpContext = Context.GetHttpContext();
+
+                var senderId = httpContext?.Request.Query["senderId"].ToString();
+
+                //string senderId = Utilities.GetCurrentUserId() ?? throw new ApiException("Sender not found", System.Net.HttpStatusCode.NotFound);
 
                 ApplicationUser sender = await _unitOfWork.UserAccountRepository.GetByIdAsync(senderId!) ?? throw new ApiException("User not found", System.Net.HttpStatusCode.NotFound);
 
@@ -186,7 +202,12 @@ namespace PRM392.Services.Hubs
         {
             try
             {
-                string currentUserId = Utilities.GetCurrentUserId() ?? throw new ApiException("User not found", System.Net.HttpStatusCode.NotFound);
+                var httpContext = Context.GetHttpContext();
+
+                var currentUserId = httpContext?.Request.Query["senderId"].ToString();
+
+                //string currentUserId = Utilities.GetCurrentUserId() ?? throw new ApiException("User not found", System.Net.HttpStatusCode.NotFound);
+
                 onlineUsers.Remove(currentUserId!, out _);
                 await Clients.All.SendAsync("OnlineUsers", this.GetAllOnlineUsers());
             }
@@ -205,7 +226,11 @@ namespace PRM392.Services.Hubs
         {
             try
             {
-                string currentUserId = Utilities.GetCurrentUserId() ?? throw new ApiException("User not found", System.Net.HttpStatusCode.NotFound);
+                var httpContext = Context.GetHttpContext();
+
+                var currentUserId = httpContext?.Request.Query["senderId"].ToString();
+
+                //string currentUserId = Utilities.GetCurrentUserId() ?? throw new ApiException("User not found", System.Net.HttpStatusCode.NotFound);
 
                 HashSet<string> onlineUsersSet = onlineUsers != null ? new HashSet<string>(onlineUsers.Keys) : new HashSet<string>();
 
